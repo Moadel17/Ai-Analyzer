@@ -4,9 +4,7 @@ import ScoreCircle from "~/data/scoreCircle";
 
 export default function ResumeCard({ ele }: any) {
   return (
-    <Link
-      to={`/resume/${ele.id}`}
-      className="card w-100 h-full bg-white p-5">
+    <Link to={`/resume/${ele.id}`} className="card w-100 h-full bg-white p-5">
       <div className="head flex justify-between">
         <div className="title">
           <h3 className="font-bold text-1xl">{ele.companyName}</h3>

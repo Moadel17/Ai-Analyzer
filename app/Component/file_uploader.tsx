@@ -1,78 +1,82 @@
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { formatSize } from "~/data/fileSize";
+import pdf from "../assets/images/pdf.png";
+import close from "../assets/icons/cross.svg";
+import info from "../assets/icons/info.svg";
 
-// Imports Images
-import uploadIcon from "../assets/icons/info.svg";
-import pdfImage from "../assets/images/pdf.png";
-import removePdf from "../assets/icons/cross.svg";
-
-interface FilesSelectProps {
-  filesSelected?: (file: File | null) => void;
+interface FileUploaderProps {
+  onFileSelect?: (file: File | null) => void;
 }
 
-export default function FileUploader({ filesSelected }: FilesSelectProps) {
-  // On Drop Const
+const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      // Do something with the files
       const file = acceptedFiles[0] || null;
 
-      filesSelected?.(file);
+      onFileSelect?.(file);
     },
-    [filesSelected],
+    [onFileSelect],
   );
 
-  // Use Drop Files
+  const maxFileSize = 20 * 1024 * 1024; // 20MB in bytes
+
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({
       onDrop,
       multiple: false,
       accept: { "application/pdf": [".pdf"] },
-      maxSize: 20 * 1024 * 1024,
+      maxSize: maxFileSize,
     });
 
-  // const file
   const file = acceptedFiles[0] || null;
 
-  // const File Size
-  const fileSize = 20 * 1024 * 1024;
-
   return (
-    <div className="w-full cursor-pointer my-2 gradient-border">
+    <div className="w-full gradient-border">
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <div className="flex flex-col justify-center items-center gap-5">
+
+        <div className="space-y-4 cursor-pointer">
           {file ? (
             <div
-              className="flex justify-between items-center w-full"
+              className="uploader-selected-file"
               onClick={(e) => e.stopPropagation()}>
-              <img src={pdfImage} className="w-15 h-15" alt="" />
-              <div className="cursor-auto">
-                <p>{file?.name}</p>
-                <p>{formatSize(file?.size)}</p>
+              <img src={pdf} alt="pdf" className="size-10" />
+              <div className="flex items-center space-x-3">
+                <div>
+                  <p className="text-sm font-medium text-gray-700 truncate max-w-xs">
+                    {file.name}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {formatSize(file.size)}
+                  </p>
+                </div>
               </div>
-              <button onClick={() => filesSelected?.(null)}>
-                <img
-                  src={removePdf}
-                  className="w-5 h-5 cursor-pointer"
-                  alt=""
-                />
+              <button
+                className="p-2 cursor-pointer"
+                onClick={(e) => {
+                  onFileSelect?.(null);
+                }}>
+                <img src={close} alt="remove" className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-2">
-              <div>
-                <img src={uploadIcon} alt="" className="w-100 h-15" />
+            <div>
+              <div className="mx-auto w-16 h-16 flex items-center justify-center mb-2">
+                <img src={info} alt="upload" className="size-20" />
               </div>
-              <p>
-                <span>Click to upload</span> or drag and drop
+              <p className="text-lg text-gray-500">
+                <span className="font-semibold">Click to upload</span> or drag
+                and drop
               </p>
-              <p>PDF (max {formatSize(fileSize)})</p>
+              <p className="text-lg text-gray-500">
+                PDF (max {formatSize(maxFileSize)})
+              </p>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-}
+};
+export default FileUploader;

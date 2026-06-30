@@ -21,7 +21,8 @@ export default function NavBar() {
       <Link to="/" style={{ marginTop: "5px", ...styleFont }}>
         RESUMIND
       </Link>
-      <button
+      <Link
+        to="/upload"
         className="bg-blue-500 p-1 cursor-pointer"
         style={{
           color: "white",
@@ -30,7 +31,7 @@ export default function NavBar() {
           ...styleFont,
         }}>
         <span>Upload Resume</span>
-      </button>
+      </Link>
     </nav>
   );
 }

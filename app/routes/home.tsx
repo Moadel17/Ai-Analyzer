@@ -35,7 +35,7 @@ export default function Home() {
 
       <section className="resume-cards flex align-middle flex-wrap justify-center gap-10 mt-15">
         {resumes.map((ele) => (
-          <ResumeCard ele={ele} />
+          <ResumeCard key={ele.id} ele={ele} />
         ))}
       </section>
     </main>
