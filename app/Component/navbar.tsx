@@ -19,7 +19,7 @@ export default function NavBar() {
         width: width > 905 ? "50%" : width > 560 ? "80%" : "100%",
       }}>
       <Link to="/" style={{ marginTop: "5px", ...styleFont }}>
-        RESUMIND
+        Home
       </Link>
       <Link
         to="/upload"
