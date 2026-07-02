@@ -32,6 +32,9 @@ export default function NavBar() {
         }}>
         <span>Upload Resume</span>
       </Link>
+      <Link to="/wipe" style={{ marginTop: "5px", ...styleFont }}>
+        Wipe Resumes
+      </Link>
     </nav>
   );
 }
